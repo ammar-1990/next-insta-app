@@ -2,4 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.icon {
+  @apply w-6  h-6  cursor-pointer duration-150 ease-out hover:scale-125 hidden md:block
+}
+
+
+.myScroll::-webkit-scrollbar{
+background-color: transparent;
+height: 7px;
+}
+
+.myScroll::-webkit-scrollbar-thumb {
+background-color: black;
+
+}
+
+.input {
+  @apply py-1 px-3 flex-1 outline-none border  border-t-0 border-l-0 border-r-0  
+}
 
