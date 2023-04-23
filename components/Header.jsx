@@ -6,8 +6,11 @@ import {PaperAirplaneIcon} from '@heroicons/react/24/outline'
 import {PlusCircleIcon} from '@heroicons/react/24/outline'
 import {UserGroupIcon} from '@heroicons/react/24/outline'
 import {HeartIcon} from '@heroicons/react/24/outline'
+import { useModal } from "@/lib/ModalContext"
 
 const Header = () => {
+
+    const {setModal} = useModal()
   return (
     <header className="shadow-sm bg-white border-b sticky top-0 z-50">
     <div className="max-w-[1150px] mx-auto flex justify-between  py-2 items-center px-2 lg:py-0">
@@ -39,7 +42,7 @@ const Header = () => {
 
 <PaperAirplaneIcon className="icon pointer-events-none" />
 </div>
-<PlusCircleIcon  className="icon"/>
+<PlusCircleIcon onClick={()=>setModal(prev=>!prev)}  className="icon"/>
 <UserGroupIcon className="icon" />
 <HeartIcon  className="icon"/>
 <img src="/assets/imageplaceholder.jpg" className="w-10 h-10 rounded-full cursor-pointer" />
