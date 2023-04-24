@@ -13,6 +13,7 @@
 .myScroll::-webkit-scrollbar{
 background-color: transparent;
 height: 7px;
+width: 7px;
 }
 
 .myScroll::-webkit-scrollbar-thumb {

@@ -8,7 +8,7 @@ import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { useModal } from "@/lib/ModalContext";
 import { auth } from "@/firebase";
-import { signOut } from "firebase/auth";
+
 
 const Header = () => {
   const { setModal } = useModal();
@@ -63,7 +63,7 @@ const Header = () => {
           <HeartIcon className="icon" />
           <img
             src={auth?.currentUser?.photoURL}
-            onClick={() => {signOut(auth)}}
+           
             className="w-10 h-10 rounded-full cursor-pointer p-[1px] border-2"
           />
         </div>

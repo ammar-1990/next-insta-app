@@ -1,3 +1,6 @@
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase";
+
 const MiniProfile = () => {
   return (
     <div className="flex justify-between items-center mt-16">
@@ -10,7 +13,7 @@ const MiniProfile = () => {
         </p>
       </div>
 
-      <button className="text-blue-400">Sign Out</button>
+      <button  onClick={() => {signOut(auth)}} className="text-blue-400">Sign Out</button>
     </div>
   );
 };

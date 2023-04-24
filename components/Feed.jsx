@@ -11,7 +11,7 @@ const Feed = () => {
 <Posts />
 
       </section>
-      <section className="lg:px-6 px-2 ">
+      <section className="lg:px-6 px-2 hidden md:block">
         <div className="sticky top-[70px]">
 
         <MiniProfile />

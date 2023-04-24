@@ -41,10 +41,10 @@ setSuggestions([...Array(5).fill().map((_,i)=>({...createRandomUser()}))])
     <img src={profile.avatar} alt="avatar" className='w-10 h-10 rounded-full p-[1px] lg:mr-5 mr-1 border-2 cursor-pointer' />
 
     <div className='flex-1'>
-        <p className='font-bold '>
+        <p className='font-bold cursor-pointer max-w-fit'>
           {profile.username}  
         </p>
-        <p className='text-gray-400 font-semibold text-sm'>
+        <p className='text-gray-400 font-semibold text-sm '>
 {profile.company}
         </p>
     </div>
