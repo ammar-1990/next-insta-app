@@ -130,7 +130,7 @@ const setLike = async()=>{
           className="w-11 h-11 rounded-full border-2 p-[1px] object-cover mr-4 cursor-pointer"
           alt="user img"
         />
-        <p className="flex-1 font-semibold">{username}</p>
+        <p className="flex-1 font-semibold capitalize">{username}</p>
         <EllipsisVerticalIcon className="h-6 text-gray-600 cursor-pointer" />
       </div>
       {/* Image */}
@@ -176,7 +176,7 @@ const setLike = async()=>{
 
       {/* input */}
       <form className="flex p-4 items-center">
-        <FaceSmileIcon className="icon" />
+        <FaceSmileIcon className="postIcon" />
         <input
           value={comment}
           onChange={(e) => setComment(e.target.value)}
