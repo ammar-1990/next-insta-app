@@ -35,7 +35,7 @@ const Posts = () => {
     return  unsub;
     
   }, []);
-if(!posts)
+if(posts.length===0)
 return (
 
   <div className="w-full h-full flex items-center justify-center">
