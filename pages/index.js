@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import Head from "next/head";
+
 import Header from "@/components/Header";
 import Feed from "@/components/Feed";
 import { AnimatePresence, motion } from "framer-motion";
@@ -51,10 +51,7 @@ export default function Home() {
 
   return (
     <div>
-      <Head>
-        <title>Instagram</title>
-        <link rel="icon" href="/logo.png" />
-      </Head>
+     
       <Header />
       <Feed />
 
