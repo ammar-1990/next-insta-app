@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { BallTriangle } from "react-loader-spinner";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,7 +52,11 @@ export default function Home() {
 
   return (
     <div>
-     
+     <Head>
+      <title>
+        {user?.displayName}
+      </title>
+     </Head>
       <Header />
       <Feed />
 
