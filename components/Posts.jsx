@@ -1,35 +1,47 @@
-import Post from "./Post"
+import { useEffect, useState } from "react";
+import Post from "./Post";
 
+import {collection,onSnapshot,orderBy,query} from "firebase/firestore";
+import { db } from "@/firebase";
 
 const Posts = () => {
 
 
-const posts=[
-    {
-        id:'1',
-        username:'Jack',
-        userImg:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Pierre-Person.jpg/600px-Pierre-Person.jpg',
-        img:'https://whyy.org/wp-content/uploads/2019/12/bright-daylight-environment-forest-240040-1-768x512.jpg',
-        caption:'beautiful nature,let"s go for a walk in such weather',
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const q = query(collection(db,"posts"),orderBy("timestamp", "desc"))
+   
+    
+    const unsub = onSnapshot(
+      q,
+      (querySnapshot) => {
       
-    },
-    {
-        id:'2',
-        username:'rock',
-        userImg:'https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg',
-        img:'https://images.pexels.com/photos/1179225/pexels-photo-1179225.jpeg?auto=compress&cs=tinysrgb&w=600',
-        caption:'very nice river let us make sport and run all the day !!!',
-      
-    },
-]
+       
+        let list =[];
+       querySnapshot.forEach(doc=>{
+         list.push({id:doc.id,...doc.data()})
+     
+        })
+        
+     setPosts(list)
+   
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    return  unsub;
+    
+  }, []);
 
   return (
     <div className="mt-6">
-
-{posts.map(el=><Post key={1} {...el} />)}
-
+      {posts?.map((el) => (
+        <Post key={el.id} username={el.username} userImg={el.profileImg} caption={el.caption} img={el.image}/>
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default Posts
+export default Posts;

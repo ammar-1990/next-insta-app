@@ -23,12 +23,12 @@ const Post = ({username,userImg,img,caption}) => {
 
 <div className='flex justify-between items-center pt-2 px-2'>
 <div className='flex gap-3'>
-    <HeartIcon className='icon' />
-    <PaperAirplaneIcon className='icon'/>
-    <ChatBubbleLeftEllipsisIcon className='icon'/>
+    <HeartIcon className='postIcon' />
+    <PaperAirplaneIcon className='postIcon'/>
+    <ChatBubbleLeftEllipsisIcon className='postIcon'/>
 </div>
 
-<BookmarkIcon className='icon'/>
+<BookmarkIcon className='postIcon'/>
 </div>
 
 {/* caption */}

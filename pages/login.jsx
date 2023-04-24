@@ -1,4 +1,4 @@
-
+import {  storage } from "@/firebase";
 import { useState } from "react";
 import { useRef } from "react";
 import { useFormik } from "formik";
@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import {createUserWithEmailAndPassword,signInWithEmailAndPassword,updateProfile} from 'firebase/auth'
 import { auth } from "@/firebase";
 import { useRouter } from "next/router";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 const login = () => {
   const [signUp, setSignUp] = useState(false);
@@ -44,16 +45,34 @@ const login = () => {
         "Passwords dont match"
       ),
     }),
-    onSubmit(values, actions) {
+    onSubmit: async(values, actions)=> {
         setLoading(true)
         createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then((userCredential) => {
+        .then(async(userCredential) => {
           // Signed in 
-          updateProfile(userCredential.user,{
-            displayName:values.name,
-            photoURL:'https://artscimedia.case.edu/wp-content/uploads/sites/79/2016/12/14205134/no-user-image.gif'
-        
-           });
+          const imageRef = ref(storage, `profiles/${userCredential.user.email}/image`);
+if(signUpImage)
+          await uploadBytes(imageRef, signUpImage).then(
+            async (snapshot) => {
+              const downloadURL = await getDownloadURL(imageRef);
+              updateProfile(userCredential.user,{
+                displayName:values.name,
+                photoURL:downloadURL || 'https://artscimedia.case.edu/wp-content/uploads/sites/79/2016/12/14205134/no-user-image.gif'
+            
+               });
+              console.log('image uploaded')
+            }
+          ).catch((err)=>console.log(err));
+          else {
+            updateProfile(userCredential.user,{
+                displayName:values.name,
+                photoURL:'https://artscimedia.case.edu/wp-content/uploads/sites/79/2016/12/14205134/no-user-image.gif'
+            
+               })
+          }
+
+          
+       
           const user = userCredential.user;
           console.log(user)
      
@@ -81,6 +100,7 @@ const login = () => {
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
+      console.log(auth.currentUser)
      router.push('/')
     })
     .catch((error) => {
@@ -134,6 +154,7 @@ const login = () => {
       ) : (
         // signup form
         <form ref={form} className="mt-2 flex flex-col gap-5 w-[300px]" onSubmit={formik.handleSubmit}>
+  {  signUpImage &&        <img src={URL.createObjectURL(signUpImage)} onClick={()=>setSignUpImage(null)} className="w-12 h-12 cursor-pointer object-cover rounded-full block mx-auto my-2" alt="" />}
           <input
               onBlur={formik.handleBlur}
             type="text"
@@ -189,7 +210,7 @@ const login = () => {
             >
               Upload Image{" "}
             </button>
-            <input type="file" hidden ref={imageRef} />
+            <input type="file" hidden ref={imageRef} onChange={(e)=>setSignUpImage(e.target.files[0])} />
           </div>
           <button disabled={loading} className="text-white bg-black py-3 disabled:opacity-60  border-none">
             {loading ? 'Loading' : 'Signup'}
@@ -198,7 +219,7 @@ const login = () => {
           <p className="mt-8 text-xs">
             Back to{" "}
             <span
-              onClick={() => {setSignUp(false);formik.resetForm()}}
+              onClick={() => {setSignUp(false);formik.resetForm();setSignUpImage(null)}}
               className="underline cursor-pointer"
             >
               Login.

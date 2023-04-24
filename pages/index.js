@@ -1,37 +1,64 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import Head from 'next/head'
-import Header from '@/components/Header'
-import Feed from '@/components/Feed'
-import {AnimatePresence ,motion} from 'framer-motion'
-
-import { useModal } from '@/lib/ModalContext'
+import { Inter } from "next/font/google";
+import Head from "next/head";
+import Header from "@/components/Header";
+import Feed from "@/components/Feed";
+import { AnimatePresence, motion } from "framer-motion";
+import { auth } from "@/firebase";
+import { useModal } from "@/lib/ModalContext";
 import Modal from "@/components/Modal";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-const inter = Inter({ subsets: ['latin'] })
+import { BallTriangle } from "react-loader-spinner";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const { modal } = useModal();
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log(user);
+      if (!user) {
+        router.push("/login");
+      } else {
+        setUser(user);
+      }
+    });
 
-  const {modal} = useModal()
-  console.log(modal)
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  if (!user)
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        <BallTriangle
+          height={100}
+          width={100}
+          radius={5}
+          color="black"
+          ariaLabel="ball-triangle-loading"
+          wrapperClass={{}}
+          wrapperStyle=""
+          visible={true}
+        />
+      </div>
+    );
+
   return (
-   <div>
+    <div>
+      <Head>
+        <title>Instagram</title>
+        <link rel="icon" href="/logo.png" />
+      </Head>
+      <Header />
+      <Feed />
 
-    <Head>
-      <title>
-        Instagram
-      </title>
-      <link rel='icon' href='/logo.png' />
-    </Head>
-    <Header />
-    <Feed />
-
-    
-    <AnimatePresence>
-{    modal && <Modal />}
-    </AnimatePresence>
-    
-    
-   </div>
-  )
+      <AnimatePresence>{modal && <Modal />}</AnimatePresence>
+    </div>
+  );
 }

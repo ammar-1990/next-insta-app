@@ -5,6 +5,9 @@
 .icon {
   @apply w-6  h-6  cursor-pointer duration-150 ease-out hover:scale-125 hidden md:block
 }
+.postIcon {
+  @apply w-6  h-6  cursor-pointer duration-150 ease-out hover:scale-125 
+}
 
 
 .myScroll::-webkit-scrollbar{
